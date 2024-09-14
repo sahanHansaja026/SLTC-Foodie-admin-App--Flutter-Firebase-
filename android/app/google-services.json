@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "224417967621",
+    "project_id": "scurd-e749c",
+    "storage_bucket": "scurd-e749c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:224417967621:android:d9a75e9bcc2ddcb1be366c",
+        "android_client_info": {
+          "package_name": "com.example.curd"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBwlhrvmYxJlZM6JxXVn9fv7pX6xwA1fk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:224417967621:android:f0a4d2485edf54cfbe366c",
+        "android_client_info": {
+          "package_name": "com.example.sltc"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBwlhrvmYxJlZM6JxXVn9fv7pX6xwA1fk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
