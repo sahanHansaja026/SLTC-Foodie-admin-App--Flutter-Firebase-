@@ -3,9 +3,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class OrderService {
-  final FirebaseFirestore _db = FirebaseFirestore.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Stream<QuerySnapshot> getOrdersStream() {
-    return _db.collection('orders').snapshots();
+  Stream<QuerySnapshot> getOrdersStreamByStatus(String status) {
+    return _firestore
+        .collection('orders')
+        .where('status', isEqualTo: status)
+        .snapshots();
   }
 }
