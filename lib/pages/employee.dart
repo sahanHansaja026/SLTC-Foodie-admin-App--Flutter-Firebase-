@@ -15,11 +15,24 @@ class Employee extends StatefulWidget {
 
 class _EmployeeState extends State<Employee> {
   TextEditingController nameController = TextEditingController();
-  TextEditingController ageController = TextEditingController();
-  TextEditingController locationController = TextEditingController();
+  TextEditingController priceController = TextEditingController();
+  TextEditingController offerController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+
+  String selectedCategory = "Select Category"; // Default value for category
 
   File? _image; // Selected image file
   final ImagePicker _picker = ImagePicker(); // Image picker instance
+
+  // Food categories to choose from
+  final List<String> categories = [
+    "Select Category",
+    "Beverages",
+    "Snacks",
+    "Main Course",
+    "Desserts",
+    "Fast Food"
+  ];
 
   Future pickImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
@@ -27,7 +40,6 @@ class _EmployeeState extends State<Employee> {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
       } else {
-        // ignore: avoid_print
         print("No image selected.");
       }
     });
@@ -72,10 +84,12 @@ class _EmployeeState extends State<Employee> {
 
   void clearFields() {
     nameController.clear();
-    ageController.clear();
-    locationController.clear();
+    priceController.clear();
+    offerController.clear();
+    descriptionController.clear();
     setState(() {
       _image = null;
+      selectedCategory = "Select Category";
     });
   }
 
@@ -115,14 +129,59 @@ class _EmployeeState extends State<Employee> {
             buildInputCard(
               "Price",
               "Enter Price",
-              ageController,
+              priceController,
               keyboardType: TextInputType.number,
             ),
             const SizedBox(height: 20),
             buildInputCard(
               "Offer",
               "Enter Offer",
-              locationController,
+              offerController,
+            ),
+            const SizedBox(height: 20),
+            buildInputCard(
+              "Description",
+              "Enter Food Description",
+              descriptionController,
+            ),
+            const SizedBox(height: 20),
+            // Dropdown for selecting category
+            Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              elevation: 4,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Category",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    DropdownButton<String>(
+                      value: selectedCategory,
+                      isExpanded: true,
+                      items: categories.map((String category) {
+                        return DropdownMenuItem<String>(
+                          value: category,
+                          child: Text(category),
+                        );
+                      }).toList(),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          selectedCategory = newValue!;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              ),
             ),
             const SizedBox(height: 20),
             Center(
@@ -163,8 +222,10 @@ class _EmployeeState extends State<Employee> {
               child: ElevatedButton(
                 onPressed: () async {
                   if (nameController.text.isEmpty ||
-                      ageController.text.isEmpty ||
-                      locationController.text.isEmpty ||
+                      priceController.text.isEmpty ||
+                      offerController.text.isEmpty ||
+                      descriptionController.text.isEmpty ||
+                      selectedCategory == "Select Category" ||
                       _image == null) {
                     Fluttertoast.showToast(
                       msg: "Please fill all fields and select an image",
@@ -183,9 +244,11 @@ class _EmployeeState extends State<Employee> {
                     String? imageUrl = await uploadImage(id);
                     Map<String, dynamic> employeeInfoMap = {
                       "Name": nameController.text,
-                      "food": ageController.text,
+                      "food": priceController.text,
                       "ID": id,
-                      "offer": locationController.text,
+                      "offer": offerController.text,
+                      "description": descriptionController.text,
+                      "category": selectedCategory,
                       "ImageURL": imageUrl,
                     };
                     await DatabaseMethod()
@@ -203,9 +266,7 @@ class _EmployeeState extends State<Employee> {
                       clearFields();
                     });
                   } catch (e) {
-                    // ignore: use_build_context_synchronously
                     Navigator.pop(context);
-                    // ignore: avoid_print
                     print(e);
                   }
                 },
@@ -278,6 +339,4 @@ class DatabaseMethod {
         .doc(id)
         .set(employeeInfoMap);
   }
-
-  getEmployeeDeatails() {}
 }

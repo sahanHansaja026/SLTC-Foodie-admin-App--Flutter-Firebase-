@@ -7,7 +7,8 @@ class PaymentService {
     required String userEmail,
     required String foodName,
     required double totalPrice,
-    required String imageUrl, // Add ImageURL parameter
+    required String imageUrl,
+    required int quantity, // Add ImageURL parameter
   }) async {
     // Get current date and time
     DateTime now = DateTime.now();
@@ -25,7 +26,8 @@ class PaymentService {
       'total_price': totalPrice,
       'date': formattedDate,
       'time': formattedTime,
-      'image_url': imageUrl, // Add ImageURL field
+      'image_url': imageUrl,
+      'quentity':quantity, // Add ImageURL field
     });
   }
 }

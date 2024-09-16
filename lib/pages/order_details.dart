@@ -10,6 +10,7 @@ class OrderDetails extends StatefulWidget {
   final double totalPrice;
   final String userEmail;
   final String orderId;
+  final int quantity;
 
   const OrderDetails({
     super.key,
@@ -20,6 +21,7 @@ class OrderDetails extends StatefulWidget {
     required this.imageUrl,
     required this.totalPrice,
     required this.userEmail,
+    required this.quantity,
     required this.orderId,
   });
 
@@ -95,6 +97,8 @@ class _OrderDetailsState extends State<OrderDetails> {
             Text('Time: ${widget.time}'),
             const SizedBox(height: 8),
             Text('Total Price: \$${widget.totalPrice.toStringAsFixed(2)}'),
+            const SizedBox(height: 8),
+            Text('quentity: ${widget.quantity}'),
             const SizedBox(height: 8),
             Text('User Email: ${widget.userEmail}'),
 

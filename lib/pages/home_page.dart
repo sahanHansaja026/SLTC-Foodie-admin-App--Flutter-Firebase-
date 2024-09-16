@@ -11,7 +11,8 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
   final OrderService _orderService = OrderService();
   Stream<QuerySnapshot>? orderStream;
   late TabController _tabController;
@@ -19,16 +20,45 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 5, vsync: this); // Length matches the number of tabs
+    _tabController = TabController(length: 5, vsync: this);
     loadOrderDetails('available'); // Load available orders by default
-  }
 
-  void loadOrderDetails(String status) {
-    setState(() {
-      orderStream = _orderService.getOrdersStreamByStatus(status); // Fetch orders based on status
+    // Listen to tab changes (whether via tap or swipe)
+    _tabController.addListener(() {
+      if (!_tabController.indexIsChanging) {
+        // When tab is changed, update the order list
+        String status = getOrderStatusFromTabIndex(_tabController.index);
+        loadOrderDetails(status);
+      }
     });
   }
 
+  // Helper function to map the tab index to order status
+  String getOrderStatusFromTabIndex(int index) {
+    switch (index) {
+      case 0:
+        return 'available';
+      case 1:
+        return 'processing';
+      case 2:
+        return 'ready to deliver';
+      case 3:
+        return 'delivered';
+      case 4:
+        return 'canceled';
+      default:
+        return 'available';
+    }
+  }
+
+  // Load order details based on the status
+  void loadOrderDetails(String status) {
+    setState(() {
+      orderStream = _orderService.getOrdersStreamByStatus(status);
+    });
+  }
+
+  // Widget to display order details
   Widget orderDetailsWidget() {
     return StreamBuilder<QuerySnapshot>(
       stream: orderStream,
@@ -61,6 +91,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                         totalPrice: ds['total_price'],
                         userEmail: ds['user_email'],
                         orderId: ds['order_id'],
+                        quantity: ds['quantity'], // Correct field here
                       ),
                     ),
                   );
@@ -84,7 +115,18 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                               Text(
                                 ds['food_name'] ?? 'No Name',
                                 style: TextStyle(
-                                  color: Theme.of(context).colorScheme.secondary,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                  fontSize: 26.0,
+                                ),
+                              ),
+                              Text(
+                                ds['quantity'] != null
+                                    ? ds['quantity'].toString()
+                                    : '0', // Corrected quantity display
+                                style: TextStyle(
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
                                   fontSize: 26.0,
                                 ),
                               ),
@@ -144,6 +186,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         backgroundColor: Colors.teal,
         bottom: TabBar(
           controller: _tabController,
+          isScrollable: true, // Allow scrolling to avoid fixed-width issue
           tabs: const [
             Tab(text: "Available"),
             Tab(text: "Processing"),
@@ -151,27 +194,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
             Tab(text: "Delivered"),
             Tab(text: "Canceled"),
           ],
-          onTap: (index) {
-            String status = '';
-            switch (index) {
-              case 0:
-                status = 'available';
-                break;
-              case 1:
-                status = 'processing';
-                break;
-              case 2:
-                status = 'ready to deliver';
-                break;
-              case 3:
-                status = 'delivered';
-                break;
-              case 4:
-                status = 'canceled';
-                break;
-            }
-            loadOrderDetails(status); // Load orders based on selected tab
-          },
         ),
       ),
       drawer: const MyDrawer(), // Adding the drawer here
