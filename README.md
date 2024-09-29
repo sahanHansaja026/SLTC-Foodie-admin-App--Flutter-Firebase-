@@ -1,18 +1,18 @@
 ---
 
-# SLTC Foodie
+# SLTC Foodie - Admin Panel
 
-SLTC Foodie is a Flutter-based mobile application that manages food items and orders for a restaurant using Firebase for data management, authentication, and cloud storage. The app allows users to log in or register, manage food items, toggle between dark and light modes, and place orders.
+SLTC Foodie Admin Panel is a Flutter-based mobile application designed for restaurant administrators to manage food items and orders. The app leverages Firebase for data management, authentication, and cloud storage. Admins can log in, add new food items with details such as images, prices, offers, and descriptions, and manage customer orders by viewing order details like the customer's name, ordered items, and prices.
 
-<img src="https://github.com/sahan026/images/blob/main/SLTC_app_iocn.png" alt="App Icon" width="150" height="150">
+<img src="https://github.com/sahan026/images/blob/main/SLTC_FOODIE%20ADMIN%20LOGO.png" alt="App Icon" width="150" height="150">
 
 ## Features
 
-- **Authentication**: Login or Register using Firebase Authentication.
-- **Home Page**: Displays food details (name, price, offer, and image) in a card view. Each food card navigates to a detailed food page where users can add/remove items and see the total price.
-- **Add Food**: Users can add new food items with a name, price, offer, and image via a floating action button.
-- **Drawer Menu**: Home, Settings, and Logout options. The settings page allows users to switch between dark mode and light mode.
-- **Payments**: Users can proceed to the payment page and enter Visa card details to complete the purchase.
+- **Admin Authentication**: Admins log in through Firebase Authentication to access the app.
+- **Home Page**: Displays a list of orders placed by customers. Admins can click on any order to view its details.
+- **Order Details**: Each order contains information about the customer, the items ordered, quantity, price, and time of order.
+- **Manage Food Items**: Admins can add, edit, or remove food items, including uploading food images and setting prices and offers.
+- **Drawer Menu**: Home, Settings, and Logout options. The settings page allows admins to toggle between dark and light mode.
 - **Theming**: Dark mode and light mode toggling in the settings.
 
 ## App Workflow
@@ -24,40 +24,27 @@ SLTC Foodie is a Flutter-based mobile application that manages food items and or
      <img src="https://github.com/sahan026/images/blob/main/SLTC_login_page.jpg" alt="Login Page" width="250" height="500">
 
 2. **Home Page**:
-    - The home page displays a list of food items in a card format, showing the food name, price, offer, and a small food image.
-    - Each card can be clicked to navigate to the detailed food page.
-    - A floating action button in the bottom right allows users to add a new food item.
+    - The home page displays a list of customer orders. Each order card shows basic details such as the order time and total price.
+    - Clicking on an order card navigates the admin to a detailed order view.
+    - A floating action button at the bottom right allows the admin to add new food items.
 
-    <img src="https://github.com/sahan026/images/blob/main/SLTC_home_page.jpg" alt="Home Page" width="250" height="500">
+    <img src="https://github.com/sahan026/images/blob/main/adminhomepage.jpg" alt="Home Page" width="250" height="500">
 
-3. **Food Details**:
-    - Clicking on a food item card navigates to the detailed food page, which shows all details about the food item (name, price, offer, and image).
-    - Users can add or remove the item using the plus and minus buttons, and the total price is updated accordingly.
-    - Clicking the "Pay Now" button navigates to the payment page.
+3. **Add Food**:
+    - Admins can add new food items by clicking the floating action button. They are prompted to fill in food details such as name, price, offer, and upload a food image.
+    - After filling in the details, clicking "Add Food Item" saves the food item to Firestore.
 
-    <img src="https://github.com/sahan026/images/blob/main/SLTC_food_details_page.jpg" alt="Food Details" width="250" height="500">
+    <img src="https://github.com/sahan026/images/blob/main/addfooditems.jpg" alt="Food Details" width="250" height="500">
 
-4. **Add Food**:
-    - When users click the floating action button, they are prompted to add a new food item.
-    - Fields include food name, price, offer, and an option to upload a food image using the image picker.
-    - After filling in the details, users click "Add Food Item" to save the food item to the Firestore database.
-
-    <img src="https://github.com/sahan026/images/blob/main/SLTC_add%20food_item_page.jpg" alt="Add Food" width="250" height="500">
-
-5. **Drawer Menu**:
-    - The drawer contains options for Home, Settings, and Logout.
+4. **Drawer Menu**:
+    - The drawer contains options for Home, Settings, insert foods, and Logout.
     - At the bottom of the drawer, the "Logout" button logs users out of the app.
 
-6. **Settings Page**:
+5. **Settings Page**:
     - The settings page contains a toggle for switching between dark mode and light mode.
 
     <img src="https://github.com/sahan026/images/blob/main/SLTC_setting_page.jpg" alt="Settings Page" width="250" height="500">
 
-7. **Payment**:
-    - Users can proceed to the payment page after adding food items to their cart.
-    - On the payment page, users enter Visa card details and click "Pay Now" to complete the transaction.
-
-    <img src="https://github.com/sahan026/images/blob/main/SLTC_payment_page.jpg" alt="Payment Page" width="250" height="500">
 
 ## Folder Structure
 
@@ -73,9 +60,8 @@ SLTC Foodie is a Flutter-based mobile application that manages food items and or
     - registar_page.dart
     - home_page.dart
     - setting_page.dart
-    - PaymentPage.dart
-    - employee.dart
-    - EmployeeDetails.dart
+    - incertfood.dart
+    - FoodDetails.dart
   /service
     /auth
       - auth_gate.dart
